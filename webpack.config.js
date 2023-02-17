@@ -8,6 +8,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
+        assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
     resolve: {
         extensions: ['.js']
@@ -15,14 +16,14 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.m?js$/,
+                test: /\.(js|mjs)$/i,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
                 }
             },
             {
-                test: /\.css|.styl$/i,
+                test: /\.(css|styl)$/i,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -30,8 +31,15 @@ module.exports = {
                 ]
             },
             {
-                test: /\.png/,
+                test: /\.(png|jpg|svg|gif|jpeg)$/i,
                 type: 'asset/resource'
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/fonts/[hash][ext]',
+                }
             }
         ]
     },
